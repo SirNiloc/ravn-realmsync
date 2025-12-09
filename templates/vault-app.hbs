@@ -1,0 +1,91 @@
+{{!-- templates/vault-app.hbs --}}
+<section class="ravn-realmsync-body">
+  {{#if hasToken}}
+    <header class="ravn-realmsync-header">
+      <h2>R.A.V.N. — Realmsync Adventurer Vault Nexus</h2>
+      <p class="ravn-realmsync-subtitle">
+        Linked as <strong>{{userName}}</strong> · API: {{apiBaseUrl}}
+      </p>
+      {{#if actorName}}
+        <p class="ravn-realmsync-actor">
+          Current actor: <strong>{{actorName}}</strong>
+        </p>
+      {{else}}
+        <p class="ravn-realmsync-actor">
+          Open this panel from an actor's directory context menu to bind a character.
+        </p>
+      {{/if}}
+    </header>
+
+    <div class="ravn-realmsync-controls">
+      <button type="button" data-action="refresh-remote" {{#if loading}}disabled{{/if}}>
+        {{#if loading}}Summoning ravens…{{else}}Refresh Vault{{/if}}
+      </button>
+      <button type="button" data-action="export-current" {{#if loading}}disabled{{/if}}>
+        Send Current Actor to Vault
+      </button>
+    </div>
+
+    {{#if error}}
+      <p class="ravn-realmsync-error">
+        {{error}}
+      </p>
+    {{/if}}
+
+    <div class="ravn-realmsync-list">
+      {{#if characters.length}}
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>System</th>
+              <th>Label</th>
+              <th>Updated</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each characters as |c|}}
+              <tr class="{{#if (eq ../selectedId c.id)}}is-selected{{/if}}">
+                <td>
+                  <button type="button" class="linklike" data-action="select-remote" data-id="{{c.id}}">
+                    {{c.name}}
+                  </button>
+                </td>
+                <td>{{c.system}}</td>
+                <td>{{c.label}}</td>
+                <td>{{c.updatedAt}}</td>
+                <td>
+                  <button type="button" data-action="import-remote" data-id="{{c.id}}">
+                    Import
+                  </button>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{else}}
+        <p class="ravn-realmsync-empty">
+          Your vault is empty, or the ravens are currently unionizing. Try exporting an actor first.
+        </p>
+      {{/if}}
+    </div>
+
+    {{#if lastRefreshedAt}}
+      <p class="ravn-realmsync-footer">
+        Last refreshed at: {{lastRefreshedAt}}
+      </p>
+    {{/if}}
+  {{else}}
+    <header class="ravn-realmsync-header">
+      <h2>R.A.V.N. — Realmsync Adventurer Vault Nexus</h2>
+    </header>
+    <p>
+      No Hero Vault API token is configured for your user.
+    </p>
+    <p>
+      Open <strong>Configure Settings → Client → R.A.V.N. — Realmsync Adventurer Vault Nexus</strong>
+      and paste your token into <em>Hero Vault API Token</em>.
+    </p>
+  {{/if}}
+</section>

@@ -1,0 +1,76 @@
+/* styles/module.css */
+/* Simple dark-ish styling that plays nicely with Foundry themes. No cursed inline styles, promise. */
+
+.ravn-realmsync.sheet {
+  --ravn-bg: var(--color-bg, #151126);
+  --ravn-border: var(--color-border-dark, #55317e);
+  --ravn-accent: var(--color-primary, #8a63b6);
+  --ravn-text: var(--color-text-light-primary, #e6d9c9);
+}
+
+.ravn-realmsync-body {
+  padding: 0.75rem;
+  background: var(--ravn-bg);
+  color: var(--ravn-text);
+}
+
+.ravn-realmsync-header h2 {
+  margin: 0 0 0.25rem;
+}
+
+.ravn-realmsync-subtitle,
+.ravn-realmsync-actor,
+.ravn-realmsync-footer {
+  margin: 0.1rem 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.ravn-realmsync-controls {
+  margin: 0.5rem 0;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ravn-realmsync-controls button {
+  flex: 0 0 auto;
+}
+
+.ravn-realmsync-error {
+  margin: 0.5rem 0;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-border-danger, #ff0044);
+  color: var(--color-text-light-highlight, #ffdddd);
+}
+
+.ravn-realmsync-list table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.ravn-realmsync-list th,
+.ravn-realmsync-list td {
+  padding: 0.25rem 0.35rem;
+  border-bottom: 1px solid var(--ravn-border);
+}
+
+.ravn-realmsync-list tr.is-selected {
+  background: color-mix(in srgb, var(--ravn-accent) 12%, transparent);
+}
+
+.ravn-realmsync-list .linklike {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  color: var(--ravn-accent);
+  cursor: pointer;
+}
+
+.ravn-realmsync-empty {
+  margin-top: 0.5rem;
+  font-style: italic;
+}

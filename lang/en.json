@@ -1,0 +1,11 @@
+{
+  "RAVN.Realmsync.Settings.playerApiToken": {
+    "name": "Hero Vault API Token",
+    "hint": "Paste your personal Hero Vault API token from hero-vault.ravn-quest.online."
+  },
+  "RAVN.Realmsync.Settings.apiBaseUrl": {
+    "name": "Hero Vault API Base URL",
+    "hint": "Base URL for the Hero Vault service."
+  },
+  "RAVN.Realmsync.Context.sendToVault": "Send to R.A.V.N. Vault\u2026"
+}

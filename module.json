@@ -1,0 +1,30 @@
+{
+  "id": "ravn-realmsync",
+  "title": "R.A.V.N. — Realmsync Adventurer Vault Nexus",
+  "description": "Player-facing export/import of FoundryVTT actors to the Hero Vault service at hero-vault.ravn-quest.online.",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "authors": [
+    {
+      "name": "RAVN Quest"
+    }
+  ],
+  "esmodules": [
+    "scripts/main.js",
+    "scripts/vault-app.js",
+    "scripts/vault-client.js"
+  ],
+  "styles": [
+    "styles/module.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ]
+}
