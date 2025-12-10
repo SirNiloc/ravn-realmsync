@@ -23,7 +23,7 @@ R.A.V.N. links your Foundry world to the Hero Vault service so you can safely sa
 
 ---
 
-## Macro: Import/Export Hero Wrangler™
+## Macro: Import/Export Hero Wrangler
 
 Create a new **Script Macro** in Foundry, name it something like `R.A.V.N. Import/Export Hero Wrangler™`, and paste the following code:
 
