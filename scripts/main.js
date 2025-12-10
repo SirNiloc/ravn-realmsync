@@ -114,6 +114,85 @@ Hooks.once("ready", () => {
     },
 
     /**
+ * Import a Hero Vault character into Foundry.
+ * - If targetActorUuid is provided, overwrites that actor's data/items/effects.
+ * - Otherwise, creates a brand new actor.
+ *
+ * @param {string} remoteId Hero Vault character id
+ * @param {{ targetActorUuid?: string|null, renderSheet?: boolean }} [options]
+ */
+    async importActorById(remoteId, { targetActorUuid = null, renderSheet = true } = {}) {
+      if (!remoteId) {
+        throw new Error("importActorById requires a Hero Vault character id.");
+      }
+
+      const remote = await client.getCharacter(remoteId);
+      if (!remote?.data) {
+        throw new Error("Hero Vault character payload missing 'data'.");
+      }
+
+      // Basic system sanity check; macro already filters, but double-lock the airlock.
+      const worldSystem = game.system?.id ?? "unknown-system";
+      const remoteSystem =
+        remote.system ??
+        remote.data?.system?.id ??
+        remote.data?.system ??
+        null;
+
+      if (remoteSystem && remoteSystem !== worldSystem) {
+        throw new Error(
+          `System mismatch: vault hero is for "${remoteSystem}", ` +
+          `but this world is "${worldSystem}".`
+        );
+      }
+
+      const actorData = foundry.utils.duplicate(remote.data);
+      const {
+        items = [],
+        effects = [],
+        _id,          // yeet the original _id; Foundry will throw a fit otherwise
+        ...actorSource
+      } = actorData;
+
+      // Overwrite existing actor
+      if (targetActorUuid) {
+        const target = await fromUuid(targetActorUuid);
+        if (!(target instanceof Actor)) {
+          throw new Error(`Target UUID does not resolve to an Actor: ${targetActorUuid}`);
+        }
+
+        // 1) Update core actor data (name, systemData, etc.)
+        await target.update(actorSource);
+
+        // 2) Nuke all existing items and replace them with the remote ones
+        const itemIds = target.items.map((i) => i.id);
+        if (itemIds.length) {
+          await target.deleteEmbeddedDocuments("Item", itemIds);
+        }
+        if (items.length) {
+          await target.createEmbeddedDocuments("Item", items);
+        }
+
+        // 3) Same for ActiveEffects, because buffs deserve consistency too
+        const effectIds = target.effects.map((e) => e.id);
+        if (effectIds.length) {
+          await target.deleteEmbeddedDocuments("ActiveEffect", effectIds);
+        }
+        if (effects.length) {
+          await target.createEmbeddedDocuments("ActiveEffect", effects);
+        }
+
+        if (renderSheet) target.sheet?.render(true);
+        return target;
+      }
+
+      // Create a new actor
+      const created = await Actor.create(actorData, { renderSheet });
+      return created;
+    },
+
+
+    /**
      * Open the Hero Vault browser panel.
      * @param {Actor|string|null} [actorOrId]  Optional actor or id to bind.
      */
