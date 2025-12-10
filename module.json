@@ -26,5 +26,7 @@
       "name": "English",
       "path": "lang/en.json"
     }
-  ]
+  ],
+  "manifest": "https://github.com/SirNiloc/ravn-realmsync/releases/download/0.1.0/module.json",
+  "download": "https://github.com/SirNiloc/ravn-realmsync/releases/download/0.1.0/module.zip"
 }
