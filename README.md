@@ -112,160 +112,86 @@ Create a new **Script Macro** in Foundry, name it something like `R.A.V.N. Impor
 
   if (!mode) return;
 
-  // ---------------------------------------------------------------------------
-  // IMPORT MODE
-  // ---------------------------------------------------------------------------
-  if (mode === "import") {
-    const remoteChars = await fetchVaultCharacters();
+ // ---------------------------------------------------------------------------
+// IMPORT MODE (NO OVERWRITE OPTION — ALWAYS CREATES NEW ACTOR)
+// ---------------------------------------------------------------------------
+if (mode === "import") {
+  const remoteChars = await fetchVaultCharacters();
 
-    const sameSystemChars = remoteChars.filter((c) => c.system === systemId);
-    if (!sameSystemChars.length) {
-      ui.notifications.warn(
-        `You have no Hero Vault characters for system "${systemId}" to import.`
-      );
-      return;
-    }
-
-    // Step 1: choose remote hero
-    const remoteOptionsHtml = sameSystemChars
-      .map((c) => {
-        const labelParts = [
-          c.name || "Unnamed",
-          c.system ? `[${c.system}]` : "",
-          c.label ? `(${c.label})` : ""
-        ].filter(Boolean);
-        return `<option value="${esc(c.id)}">${esc(labelParts.join(" "))}</option>`;
-      })
-      .join("");
-
-    const importHeroContent = `
-      <form>
-        <div class="form-group">
-          <label>Select Hero to Import (system: ${esc(systemId)})</label>
-          <select name="remoteId" style="width:100%">
-            ${remoteOptionsHtml}
-          </select>
-        </div>
-      </form>
-    `;
-
-    const remoteId = await new Promise((resolve) => {
-      new Dialog({
-        title: "Import from Hero Vault",
-        content: importHeroContent,
-        buttons: {
-          ok: {
-            label: "Next",
-            default: true,
-            callback: (html) => {
-              const root = html[0] ?? html;
-              const select = root.querySelector("select[name='remoteId']");
-              resolve(select?.value ?? null);
-            }
-          },
-          cancel: {
-            label: "Cancel",
-            callback: () => resolve(null)
-          }
-        },
-        default: "ok"
-      }).render(true);
-    });
-
-    if (!remoteId) {
-      ui.notifications.info("Import canceled.");
-      return;
-    }
-
-    const chosenRemote = sameSystemChars.find((c) => String(c.id) === String(remoteId));
-
-    // Step 2: choose local actor to overwrite or <New Actor>
-    const ownedActors = game.actors.contents.filter((a) => a.isOwner);
-    const localOptions = [
-      `<option value="__new__">&lt;New Actor&gt;</option>`
-    ];
-
-    for (const actor of ownedActors) {
-      const label = `${actor.name} [${actor.type}]`;
-      localOptions.push(
-        `<option value="${esc(actor.uuid)}">${esc(label)}</option>`
-      );
-    }
-
-    const importTargetContent = `
-      <form>
-        <div class="form-group">
-          <p>Importing Hero: <strong>${esc(chosenRemote?.name || "Unnamed")}</strong></p>
-          <p>System: <strong>${esc(chosenRemote?.system || systemId)}</strong></p>
-        </div>
-
-        <div class="form-group">
-          <label>Import Target</label>
-          <select name="targetActorUuid" style="width:100%">
-            ${localOptions.join("")}
-          </select>
-          <small>
-            Choose an existing actor to overwrite, or &lt;New Actor&gt; to create a new one.
-          </small>
-        </div>
-      </form>
-    `;
-
-    const targetActorUuid = await new Promise((resolve) => {
-      new Dialog({
-        title: "Import Target",
-        content: importTargetContent,
-        buttons: {
-          ok: {
-            label: "Import",
-            default: true,
-            callback: (html) => {
-              const root = html[0] ?? html;
-              const select = root.querySelector("select[name='targetActorUuid']");
-              resolve(select?.value ?? "__new__");
-            }
-          },
-          cancel: {
-            label: "Cancel",
-            callback: () => resolve(null)
-          }
-        },
-        default: "ok"
-      }).render(true);
-    });
-
-    if (!targetActorUuid) {
-      ui.notifications.info("Import canceled.");
-      return;
-    }
-
-    const overwriteActorUuid = targetActorUuid === "__new__" ? null : targetActorUuid;
-    const overwriteActor =
-      overwriteActorUuid ? fromUuidSync(overwriteActorUuid) : null;
-
-    try {
-      const resultActor = await api.importActorById(remoteId, {
-        targetActorUuid: overwriteActorUuid,
-        renderSheet: true
-      });
-
-      const heroName = esc(chosenRemote?.name || "Unknown Hero");
-      if (overwriteActor) {
-        ui.notifications.info(
-          `Imported “${heroName}” and overwrote actor “${esc(overwriteActor.name)}”.`
-        );
-      } else {
-        ui.notifications.info(
-          `Imported “${heroName}” as a new actor “${esc(resultActor.name)}”.`
-        );
-      }
-    } catch (err) {
-      console.error("Import failed:", err);
-      ui.notifications.error(`Import failed: ${err?.message || err}`);
-    }
-
+  const sameSystemChars = remoteChars.filter((c) => c.system === systemId);
+  if (!sameSystemChars.length) {
+    ui.notifications.warn(
+      `You have no Hero Vault characters for system "${systemId}" to import.`
+    );
     return;
   }
+
+  // Step 1: choose remote hero
+  const remoteOptionsHtml = sameSystemChars
+    .map((c) => {
+      const labelParts = [
+        c.name || "Unnamed",
+        c.system ? `[${c.system}]` : "",
+        c.label ? `(${c.label})` : ""
+      ].filter(Boolean);
+      return `<option value="${esc(c.id)}">${esc(labelParts.join(" "))}</option>`;
+    })
+    .join("");
+
+  const importHeroContent = `
+    <form>
+      <div class="form-group">
+        <label>Select Hero to Import (system: ${esc(systemId)})</label>
+        <select name="remoteId" style="width:100%">
+          ${remoteOptionsHtml}
+        </select>
+      </div>
+      <p>Import will ALWAYS create a new actor. Overwrite disabled.</p>
+    </form>
+  `;
+
+  const remoteId = await new Promise((resolve) => {
+    new Dialog({
+      title: "Import from Hero Vault",
+      content: importHeroContent,
+      buttons: {
+        ok: {
+          label: "Import",
+          default: true,
+          callback: (html) => {
+            const root = html[0] ?? html;
+            const select = root.querySelector("select[name='remoteId']");
+            resolve(select?.value ?? null);
+          }
+        },
+        cancel: { label: "Cancel", callback: () => resolve(null) }
+      },
+      default: "ok"
+    }).render(true);
+  });
+
+  if (!remoteId) {
+    ui.notifications.info("Import canceled.");
+    return;
+  }
+
+  try {
+    // Always create a NEW ACTOR
+    const resultActor = await api.importActorById(remoteId, {
+      targetActorUuid: null,
+      renderSheet: true
+    });
+
+    ui.notifications.info(
+      `Imported “${esc(resultActor.name)}” as a NEW actor.`
+    );
+  } catch (err) {
+    console.error("Import failed:", err);
+    ui.notifications.error(`Import failed: ${err?.message || err}`);
+  }
+
+  return;
+}
 
   // ---------------------------------------------------------------------------
   // EXPORT MODE
