@@ -1,5 +1,9 @@
 # R.A.V.N. — Realmsync Adventurer Vault Nexus
 
+**Warning**: R.A.V.N. is currently in active development. Features, APIs, and behaviors may change without notice, and temporary server downtime is expected during updates. While data loss is unlikely, it is still possible—always keep local backups of your characters to ensure nothing is lost.
+
+**West Marches Usage**: R.A.V.N. is my little side project for Westmarches/Sandbox-style campaigns, where players move between multiple parties, sessions, and worlds. The system provides a path for transferring characters across servers and preserving identity and progression. (A select few GMs have additional tools for tracking updates, continuity, reports, and cross-session consistency - feature not currently live, still in closed testing - direct any questions to me (SirNiloc) or Scop3Cr33p)
+
 Cloud-connected character import/export for Foundry VTT.
 
 R.A.V.N. links your Foundry world to the Hero Vault service so you can safely save characters to a personal cloud vault and pull them back into any server later. Use it as a reliable import/export path instead of juggling JSON files.
