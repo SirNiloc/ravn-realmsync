@@ -1,6 +1,6 @@
 # R.A.V.N. — Realmsync Adventurer Vault Nexus
 
-![Downloads (Latest) – ravn-realmsync](https://img.shields.io/badge/dynamic/json?label=Downloads%20(Latest-Release)&query=assets%5B1%5D.download_count&url=https%3A%2F%2Fapi.github.com%2Frepos%2FSirNiloc%2F ravn-realmsync%2Freleases%2Flatest) [![discord members](https://discord-live-members-count-badge.vercel.app/api/discord-members?guildId=695448793469943819)](https://discord.gg/kNadwUqqjQ)
+![Downloads (Latest) – ravn-realmsync](https://img.shields.io/badge/dynamic/json?label=Downloads%20(Latest-Release)&query=assets%5B1%5D.download_count&url=https%3A%2F%2Fapi.github.com%2Frepos%2FSirNiloc%2Fravn-realmsync%2Freleases%2Flatest) [![discord members](https://discord-live-members-count-badge.vercel.app/api/discord-members?guildId=695448793469943819)](https://discord.gg/kNadwUqqjQ)
 
 **Warning**: R.A.V.N. is currently in active development. Features, APIs, and behaviors may change without notice, and temporary server downtime is expected during updates. While data loss is unlikely, it is still possible—always keep local backups of your characters to ensure nothing is lost.
 
