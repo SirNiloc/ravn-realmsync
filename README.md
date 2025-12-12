@@ -2,6 +2,8 @@
 
 ![Downloads (Latest) – ravn-realmsync](https://img.shields.io/badge/dynamic/json?label=Downloads%20(Latest-Release)&query=assets%5B1%5D.download_count&url=https%3A%2F%2Fapi.github.com%2Frepos%2FSirNiloc%2Fravn-realmsync%2Freleases%2Flatest) [![discord members](https://discord-live-members-count-badge.vercel.app/api/discord-members?guildId=695448793469943819)](https://discord.gg/kNadwUqqjQ)
 
+Authentication is provided via Patreon accounts, with no payment or subscription required to access the site.
+
 **Warning**: R.A.V.N. is currently in active development. Features, APIs, and behaviors may change without notice, and temporary server downtime is expected during updates. While data loss is unlikely, it is still possible—always keep local backups of your characters to ensure nothing is lost.
 
 **West Marches Usage**: R.A.V.N. is my little side project for Westmarches/Sandbox-style campaigns, where players move between multiple parties, sessions, and worlds. The system provides a path for transferring characters across servers and preserving identity and progression. (A select few GMs have additional tools for tracking updates, continuity, reports, and cross-session consistency - feature not currently live, still in closed testing - direct any questions to me (SirNiloc) or Scop3Cr33p)
