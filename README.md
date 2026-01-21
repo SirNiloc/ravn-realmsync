@@ -19,7 +19,7 @@ R.A.V.N. links your Foundry world to the Hero Vault service so you can safely sa
 - Save any actor you own to your Hero Vault
 - Import vaulted characters into the current world as new actors or overwrite existing ones
 - Per-system filtering so you only see characters for the active game system
-- Dialog-driven workflow with clear warnings and status notifications
+- Homebrew Item/Actor sharing (not yet implemeted publicly)
 
 ---
 
